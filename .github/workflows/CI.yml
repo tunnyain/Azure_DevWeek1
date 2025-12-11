@@ -17,7 +17,7 @@ env:
   location: west_africa
   environment: production
   app_name: olatunde_app
-  project_id: olatunde_azure_001
+  project_id: olatunde_aina_azure_001
   build_version: v1.0.0
   owner: olatunde
   region: west_africa

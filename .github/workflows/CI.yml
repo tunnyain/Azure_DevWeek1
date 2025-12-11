@@ -1,0 +1,51 @@
+name: Olatunde Continous Integration
+
+on:
+  workflow_dispatch:   # Manual triggering of the workflow  
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+
+env:
+  sub_name: test-sub
+  tenant_name: test-tenant
+  resource_name: virtual_machine
+  location: west_africa
+  environment: production
+  app_name: olatunde_app
+  project_id: olatunde_azure_001
+  build_version: v1.0.0
+  owner: olatunde
+  region: west_africa
+  api_key: test_api_12345
+  storage_account: olatunstorage001
+  container_name: olatunde-container
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: list env variables
+        run: |
+          echo "Sub Name: ${{ env.sub_name }}"
+          echo "Tenant Name: ${{ env.tenant_name }}"
+          echo "Resource Name: ${{ env.resource_name }}"
+          echo "Location: ${{ env.location }}"
+          echo "Environment: ${{ env.environment }}"
+          echo "App Name: ${{ env.app_name }}"
+          echo "Project ID: ${{ env.project_id }}"
+          echo "Build Version: ${{ env.build_version }}"
+          echo "Owner: ${{ env.owner }}"
+          echo "Region: ${{ env.region }}"
+          echo "API Key: ${{ env.api_key }}"
+          echo "Storage Account: ${{ env.storage_account }}"
+          echo "Container Name: ${{ env.container_name }}"printenv
+        

@@ -1,0 +1,55 @@
+name: Olatunde Continuous Integration
+
+on:
+  workflow_dispatch:  # Allows manual trigger
+  push:
+    branches:
+      - main
+
+env:
+  subscription_id: dev_sub
+  tenant_id: dev-tenant-abcd
+  resource_group: web_app
+  doc: ./main.yaml
+  doc2: ./test2.json
+  doc3: ./test3.py
+
+jobs:
+  Build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Display environment variables
+        run: |
+          echo "Subscription ID : ${{ env.subscription_id }}"
+          echo "Tenant ID       : ${{ env.tenant_id }}"
+          echo "Resource Group  : ${{ env.resource_group }}"
+
+      - name: Show contents of configuration doc
+        run: |
+          echo "Contents of main.yaml"
+          cat $doc
+          
+          echo " Contents of test2.json"
+          cat $doc2
+          
+          echo " Contents of test3.py"
+          cat $doc3
+
+
+      - name: Create ZIP archive
+        run: |
+          zip infrastructure-package-${{ github.run_number }}.zip \
+            ${{ env.doc }} \
+            ${{ env.doc2 }} \
+            ${{ env.doc3 }}
+            
+      - name: Upload ZIP as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: infrastructure-build
+          path: infrastructure-package-${{ github.run_number }}.zip

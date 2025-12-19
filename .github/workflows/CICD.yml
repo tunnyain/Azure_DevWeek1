@@ -39,7 +39,7 @@ jobs:
           
           echo " Contents of test3.py"
           cat $doc3
-          +
+          
       # --- Testing Stage (Python) ---
       - name: Set up Python
         uses: actions/setup-python@v5

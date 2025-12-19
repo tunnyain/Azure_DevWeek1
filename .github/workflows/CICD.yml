@@ -15,7 +15,7 @@ env:
   doc3: ./test3.py
 
 jobs:
-  Build:
+  Build-and-Test:
 
     runs-on: ubuntu-latest
 
@@ -29,7 +29,7 @@ jobs:
           echo "Tenant ID       : ${{ env.tenant_id }}"
           echo "Resource Group  : ${{ env.resource_group }}"
 
-      - name: Show contents of configuration doc
+      - name: Show contents of doc
         run: |
           echo "Contents of main.yaml"
           cat $doc
@@ -39,7 +39,24 @@ jobs:
           
           echo " Contents of test3.py"
           cat $doc3
+          +
+      # --- Testing Stage (Python) ---
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
+      - name: Install pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov  # Add any other dependencies if needed
+
+      - name: Run tests on Python script
+        run: |
+          pytest ${{ env.script_file }} -v
+        # If your tests are in separate files (e.g., tests/test_*.py), change to: pytest tests/ -v
+
+      # --- Build Stage (Package files) ---
 
       - name: Create ZIP archive
         run: |
